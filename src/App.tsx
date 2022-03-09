@@ -1,24 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Button } from "react-bootstrap";
+import { Routes, Route } from "react-router-dom";
+import "./App.css";
+import InvoiceDetails from "./components/InvoiceDetails";
+import Invoices from "./pages/Invoices";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path="/" element={<Invoices />}></Route>
+        <Route path="/invoiceDetails/:id" element={<InvoiceDetails />}></Route>
+      </Routes>
     </div>
   );
 }
