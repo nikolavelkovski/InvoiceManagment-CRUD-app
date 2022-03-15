@@ -27,6 +27,7 @@ import {
   ButtonGroup,
   Table,
   Pagination,
+  Card,
 } from "react-bootstrap";
 import { MdDescription, MdFilterAlt, MdCircle } from "react-icons/md";
 import {
@@ -52,6 +53,9 @@ const Invoices: React.FC = (): JSX.Element => {
   const [editModal, setEditModal] = useState(false);
   const [editModalData, setEditModalData] = useState<IFormInputs[]>([]);
   const [showFilters, setIsShowedFilters] = useState(false);
+  const totalExpenses = useSelector(
+    (state: RootState) => state.invoices.totalExpenses
+  );
   const [approversOptions, setApproversOption] = useState<approversOptions[]>(
     []
   );
@@ -263,7 +267,7 @@ const Invoices: React.FC = (): JSX.Element => {
                   Header: _.toUpper(_.replace(key, "_", " ")),
                   accessor: key,
                   Cell: (value: any) => (
-                    <p>{`${value.value} ${getCurrencySymbol(
+                    <p>{`${value.value}.00 ${getCurrencySymbol(
                       value.row.original.currency
                     )}`}</p>
                   ),
@@ -324,6 +328,30 @@ const Invoices: React.FC = (): JSX.Element => {
             setGlobalFilter={setGlobalFilter}
             globalFilter={globalFilter}
           />
+          <Card
+            style={{
+              width: "280px",
+              height: "40px",
+              padding: "0px 5px",
+              marginLeft: "25px",
+              border: "none",
+              borderRadius: "10px",
+              boxShadow: "0px 5px 8px #ebeced",
+            }}
+          >
+            <Card.Body className="d-flex align-items-center p-0">
+              <p className="m-0">
+                Open expenses:
+                <strong className="text-primary font-weight-bold">
+                  &nbsp;&nbsp;{totalExpenses + ".00"}
+                  {getCurrencySymbol("eur")}
+                </strong>
+                <span className="text-secondary">
+                  &nbsp;({preGlobalFilteredRows.length})
+                </span>
+              </p>
+            </Card.Body>
+          </Card>
           <Button
             variant="secondary"
             onClick={() => setIsShowedFilters((prevState) => !prevState)}
@@ -331,8 +359,8 @@ const Invoices: React.FC = (): JSX.Element => {
             <MdFilterAlt></MdFilterAlt>
             {showFilters ? "Hide " : "Show "}filters
           </Button>
+
           <Button
-            className="mx-3"
             variant="success"
             onClick={() => {
               setIsShowedEditCreateModal(true);

@@ -75,7 +75,7 @@ export default function InvoiceDetails(): JSX.Element {
     <main className="tw-p-10">
       <div
         className="tw-cursor-pointer tw-text-silver"
-        onClick={() => navigate("/invoices")}
+        onClick={() => navigate("/")}
       >
         <MdArrowBackIosNew></MdArrowBackIosNew> Back
       </div>

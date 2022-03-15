@@ -6,11 +6,13 @@ export type IFormInputsWithId = { id?: string } & IFormInputs;
 type invoices = {
   invoices: IFormInputsWithId[];
   filteredInvoices: IFormInputsWithId[];
+  totalExpenses: number;
 };
 
 const initialState: invoices = {
   invoices: [],
   filteredInvoices: [],
+  totalExpenses: 0,
 };
 
 const invoicesSlice = createSlice({
@@ -19,6 +21,12 @@ const invoicesSlice = createSlice({
   reducers: {
     replaceInvoices(state, action) {
       state.invoices = action.payload;
+      debugger;
+      state.totalExpenses = _.reduce(
+        action.payload,
+        (sum, n) => sum + Number(n.total),
+        0
+      );
     },
     addInvoice: (state, action: PayloadAction<IFormInputs>) => {
       state.invoices.push(action.payload);
@@ -37,6 +45,11 @@ const invoicesSlice = createSlice({
     },
     replaceFilteredInvoices(state, action) {
       state.filteredInvoices = action.payload;
+      state.totalExpenses = _.reduce(
+        action.payload,
+        (sum, n) => sum + Number(n.total),
+        0
+      );
     },
   },
 });
